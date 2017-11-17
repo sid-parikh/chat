@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/null.css">
+{% endblock %}
+
+{% block content %}
+<div ng-controller="NullCtrl">
+    <div class="row chat-interface" ng-cloak ng-show="state.loaded">
+        <div class="header-block">
+            <h2 class="title">
+                <a href="/">
+                    nullchat
+                </a>
+            </h2>
+            <a class="btn btn-danger about" href="//github.com/cydrobolt/nullchat">about</a>
+        </div>
+
+        <div class="chat-history">
+            <div class="chat-item">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="chat-item-time">00:00:00</td>
+                            <td class="chat-item-text">Loaded.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="chat-field">
+            <input class="form-control chat-input" ng-disabled="state.blockInput" autocomplete="off" placeholder="send a message..." type="text">
+        </div>
+    </div>
+
+    <div class="preloader" ng-if="!state.loaded">
+        <h2 class="title">
+            <a href="/">
+                nullchat
+            </a>
+        </h2>
+        <p ng-bind="state.loadingMsg">loading nullchat...</p>
+        <span class="err-detail" ng-bind="state.errDetail"></span>
+
+        <i ng-if="!state.loadingErr" class="fa fa-spin fa-gear preloader-icon"></i>
+        <i ng-if="state.loadingErr" class="fa fa-ban preloader-icon"></i>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    const ROOM_ID = '{{ roomId }}'
+    const RSA_KEY_SIZE = {{ rsaKeySize }} || 2048
+</script>
+<script src="/static/js/vendor/openpgp.min.js"></script>
+<script src="/static/js/vendor/sjcl.min.js"></script>
+<script src="/static/js/vendor/ifvisible.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/static/js/null.js"></script>
+{% endblock %}
